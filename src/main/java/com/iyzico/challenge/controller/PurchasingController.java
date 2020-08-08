@@ -20,6 +20,10 @@ public class PurchasingController {
 
     private PurchasingService purchasingService;
 
+    public PurchasingController(PurchasingService purchasingService){
+        this.purchasingService = purchasingService;
+    }
+
     @PostMapping("product")
     public ResponseEntity<PurchasingResponse> purchaseProduct(@RequestBody PurchasingRequest purchasingRequest, HttpServletRequest httpServletRequest){
         return new ResponseEntity<>(purchasingService.purchaseProduct(purchasingRequest), HttpStatus.CREATED);

@@ -20,6 +20,11 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     private ProductMapper productMapper;
 
+    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
+        this.productRepository = productRepository;
+        this.productMapper = productMapper;
+    }
+
     @Override
     public ProductResponse addProduct(ProductRequest productRequest) {
         Product product = productMapper.map.productRequestToProduct(productRequest);

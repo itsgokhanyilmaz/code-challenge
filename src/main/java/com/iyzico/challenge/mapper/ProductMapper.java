@@ -4,11 +4,12 @@ import com.iyzico.challenge.dto.ProductRequest;
 import com.iyzico.challenge.dto.ProductResponse;
 import com.iyzico.challenge.entity.Product;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper()
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface ProductMapper {
     ProductMapper map = Mappers.getMapper(ProductMapper.class);
 
