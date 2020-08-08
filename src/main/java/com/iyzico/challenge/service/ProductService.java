@@ -9,9 +9,9 @@ public interface ProductService {
 
     ProductResponse addProduct(ProductRequest productRequest);
 
-    ProductResponse updateProduct(String productId, ProductRequest productRequest);
+    ProductResponse updateProduct(Long productId, ProductRequest productRequest);
 
-    ProductResponse removeProduct(String productId);
+    ProductResponse removeProduct(Long productId);
 
     List<ProductResponse> listProducts();
 }

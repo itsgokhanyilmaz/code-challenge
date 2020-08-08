@@ -1,11 +1,10 @@
 package com.iyzico.challenge.controller;
 
-import com.iyzico.challenge.dto.MainResponse;
 import com.iyzico.challenge.dto.PurchasingRequest;
 import com.iyzico.challenge.dto.PurchasingResponse;
 import com.iyzico.challenge.service.PurchasingService;
-import com.iyzico.challenge.util.ResponseUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,10 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class PurchasingController {
 
-    private final PurchasingService purchasingService;
+    private PurchasingService purchasingService;
 
     @PostMapping("product")
-    public ResponseEntity<MainResponse<PurchasingResponse>> purchaseProduct(@RequestBody PurchasingRequest purchasingRequest, HttpServletRequest httpServletRequest){
-        return ResponseUtil.data(purchasingService.purchaseProduct(purchasingRequest));
+    public ResponseEntity<PurchasingResponse> purchaseProduct(@RequestBody PurchasingRequest purchasingRequest, HttpServletRequest httpServletRequest){
+        return new ResponseEntity<>(purchasingService.purchaseProduct(purchasingRequest), HttpStatus.CREATED);
     }
 }

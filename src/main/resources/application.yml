@@ -6,6 +6,12 @@ spring:
     driverClassName: org.hsqldb.jdbcDriver
     username: root
     password: pass
+  messages:
+    always-use-message-format: false
+    basename: messages
+    encoding: UTF-8
+    fallback-to-system-locale: true
+    use-code-as-default-message: false
   jpa:
     show-sql: true
     open-in-view: false

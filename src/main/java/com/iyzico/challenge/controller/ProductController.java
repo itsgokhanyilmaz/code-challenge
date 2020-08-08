@@ -1,12 +1,10 @@
 package com.iyzico.challenge.controller;
 
 
-import com.iyzico.challenge.dto.MainResponse;
 import com.iyzico.challenge.dto.ProductRequest;
 import com.iyzico.challenge.dto.ProductResponse;
 import com.iyzico.challenge.service.ProductService;
-import com.iyzico.challenge.util.ResponseUtil;
-import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,30 +13,34 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/product")
-@RequiredArgsConstructor
+
 public class ProductController {
 
     private final ProductService productService;
 
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
     @PostMapping("add")
-    public ResponseEntity<MainResponse<ProductResponse>> addProduct(@RequestBody ProductRequest productRequest, HttpServletRequest httpServletRequest){
+    public ResponseEntity<ProductResponse> addProduct(@RequestBody ProductRequest productRequest, HttpServletRequest httpServletRequest){
         ProductResponse productResponse = productService.addProduct(productRequest);
-        return ResponseUtil.data(productResponse);
+        return new ResponseEntity<>(productResponse, HttpStatus.CREATED);
     }
 
     @GetMapping("list")
-    public ResponseEntity<MainResponse<List<ProductResponse>>> listProducts(HttpServletRequest httpServletRequest){
-        return ResponseUtil.data(productService.listProducts());
+    public ResponseEntity<List<ProductResponse>> listProducts(HttpServletRequest httpServletRequest){
+        return new ResponseEntity<>(productService.listProducts(), HttpStatus.OK);
     }
 
     @DeleteMapping("remove/{id}")
-    public ResponseEntity<MainResponse<ProductResponse>> removeProduct(@PathVariable String id){
-        return ResponseUtil.data(productService.removeProduct(id));
+    public ResponseEntity<ProductResponse> removeProduct(@PathVariable Long id){
+        return new ResponseEntity<>(productService.removeProduct(id), HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("update")
-    public ResponseEntity<MainResponse<ProductResponse>> updateProduct(@PathVariable String id, @RequestBody ProductRequest productRequest){
-        return ResponseUtil.data(productService.updateProduct(id, productRequest));
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest){
+        return new ResponseEntity<>(productService.updateProduct(id, productRequest), HttpStatus.OK );
     }
 
 }
