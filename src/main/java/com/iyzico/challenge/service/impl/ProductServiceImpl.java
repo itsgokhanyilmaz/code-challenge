@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
         product.setStockCount(productRequest.getStockCount());
         Product updatedProduct = productRepository.save(product);
 
-        logger.info("Product updated successfully!");
+        logger.info("Product updated successfully!", updatedProduct.getId());
         return productMapper.map.productToProductResponse(updatedProduct);
     }
 
