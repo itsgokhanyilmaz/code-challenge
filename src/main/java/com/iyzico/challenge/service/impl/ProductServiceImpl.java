@@ -32,9 +32,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse addProduct(ProductRequest productRequest) {
         Product product = productMapper.map.productRequestToProduct(productRequest);
-        productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
         logger.info("Product saved successfully!");
-        return productMapper.map.productToProductResponse(product);
+        return productMapper.map.productToProductResponse(savedProduct);
     }
 
     @Override
@@ -44,8 +44,10 @@ public class ProductServiceImpl implements ProductService {
         product.setPrice(productRequest.getPrice());
         product.setDescription(productRequest.getDescription());
         product.setStockCount(productRequest.getStockCount());
+        Product updatedProduct = productRepository.save(product);
+
         logger.info("Product updated successfully!");
-        return productMapper.map.productToProductResponse(product);
+        return productMapper.map.productToProductResponse(updatedProduct);
     }
 
     @Override

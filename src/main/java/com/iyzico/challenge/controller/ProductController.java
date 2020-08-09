@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/product")
-
 public class ProductController {
 
     private final ProductService productService;
@@ -33,14 +32,14 @@ public class ProductController {
         return new ResponseEntity<>(productService.listProducts(), HttpStatus.OK);
     }
 
-    @DeleteMapping("remove/{id}")
-    public ResponseEntity<ProductResponse> removeProduct(@PathVariable Long id){
-        return new ResponseEntity<>(productService.removeProduct(id), HttpStatus.NO_CONTENT);
+    @DeleteMapping("remove/{productId}")
+    public ResponseEntity<ProductResponse> removeProduct(@PathVariable Long productId){
+        return new ResponseEntity<>(productService.removeProduct(productId), HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("update")
-    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest){
-        return new ResponseEntity<>(productService.updateProduct(id, productRequest), HttpStatus.OK );
+    @PutMapping("update/{productId}")
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long productId, @RequestBody ProductRequest productRequest){
+        return new ResponseEntity<>(productService.updateProduct(productId, productRequest), HttpStatus.OK );
     }
 
 }

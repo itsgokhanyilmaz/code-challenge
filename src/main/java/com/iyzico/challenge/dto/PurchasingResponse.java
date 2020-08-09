@@ -1,10 +1,5 @@
 package com.iyzico.challenge.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-@AllArgsConstructor
-@NoArgsConstructor
 public class PurchasingResponse {
 
     private Long productId;

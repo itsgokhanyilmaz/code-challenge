@@ -3,8 +3,6 @@ package com.iyzico.challenge.dto;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
 public class PurchasingRequest {
 
     private Long productId;
