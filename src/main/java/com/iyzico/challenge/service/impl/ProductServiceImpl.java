@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse addProduct(ProductRequest productRequest) {
         Product product = productMapper.map.productRequestToProduct(productRequest);
         Product savedProduct = productRepository.save(product);
-        logger.info("Product saved successfully!");
+        logger.info("Product id: {} saved successfully!", savedProduct.getId());
         return productMapper.map.productToProductResponse(savedProduct);
     }
 
@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
         product.setStockCount(productRequest.getStockCount());
         Product updatedProduct = productRepository.save(product);
 
-        logger.info("Product updated successfully!", updatedProduct.getId());
+        logger.info("Product id: {} updated successfully!", updatedProduct.getId());
         return productMapper.map.productToProductResponse(updatedProduct);
     }
 
@@ -54,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse removeProduct(Long productId) {
         Product product = productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
         productRepository.delete(product);
-        logger.info("Product deleted successfully!");
+        logger.info("Product id: {} deleted successfully!", productId);
         return ProductMapper.map.productToProductResponse(product);
     }
 

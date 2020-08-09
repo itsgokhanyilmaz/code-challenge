@@ -4,6 +4,7 @@ package com.iyzico.challenge.service;
 import com.iyzico.challenge.dto.ProductRequest;
 import com.iyzico.challenge.dto.ProductResponse;
 import com.iyzico.challenge.entity.Product;
+import com.iyzico.challenge.exception.ProductNotFoundException;
 import com.iyzico.challenge.repository.ProductRepository;
 import com.iyzico.challenge.service.impl.ProductServiceImpl;
 import org.junit.Before;
@@ -69,15 +70,39 @@ public class ProductServiceTest {
         Long productId = new Long(1223334444);
         Mockito.when(productRepository.findById(Mockito.any())).thenReturn(Optional.of(savedProduct));
 
-        Mockito.when(productRepository.save(Mockito.any())).thenReturn(savedProduct);
-        ProductResponse productResponse = productService.updateProduct(productId, productRequest);
+        productService.updateProduct(productId, productRequest);
 
         Mockito.verify(productRepository).save(captor.capture());
 
-        assertEquals(productResponse.getProductName(), captor.getValue().getProductName());
-        assertEquals(productResponse.getDescription(), captor.getValue().getDescription());
-        assertEquals(productResponse.getPrice(), captor.getValue().getPrice());
-        assertEquals(productResponse.getStockCount(), captor.getValue().getStockCount());
+        assertEquals(productId, captor.getValue().getId());
+        assertEquals(productRequest.getProductName(), captor.getValue().getProductName());
+        assertEquals(productRequest.getDescription(), captor.getValue().getDescription());
+        assertEquals(productRequest.getPrice(), captor.getValue().getPrice());
+        assertEquals(productRequest.getStockCount(), captor.getValue().getStockCount());
+
+    }
+
+    @Test(expected = ProductNotFoundException.class)
+    public void updateProduct_NoValidProduct_ProductNotFoundException(){
+        Mockito.when(productRepository.findById(Mockito.any())).thenReturn(Optional.empty());
+        productService.updateProduct(Mockito.any(), productRequest);
+    }
+
+    @Test
+    public void removeProduct_withValidParameter_success(){
+        Long productId = new Long(1223334444);
+        Mockito.when(productRepository.findById(Mockito.any())).thenReturn(Optional.of(savedProduct));
+        productService.removeProduct(productId);
+
+        InOrder inOrder = Mockito.inOrder(productRepository);
+        inOrder.verify(productRepository).delete(Mockito.any());
+    }
+
+    @Test(expected = ProductNotFoundException.class)
+    public void removeProduct_NoValidParameter_ProductNotFoundException(){
+        Long productId = new Long(1223334444);
+        Mockito.when(productRepository.findById(Mockito.any())).thenReturn(Optional.empty());
+        productService.removeProduct(productId);
 
     }
 

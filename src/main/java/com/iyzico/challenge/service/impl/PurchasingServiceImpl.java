@@ -57,7 +57,7 @@ public class PurchasingServiceImpl implements PurchasingService {
         if (product.getStockCount() >= productCount){
             product.setStockCount(product.getStockCount() - productCount);
             productRepository.save(product);
-            logger.info("Product(s) has been deducted from stock");
+            logger.info("Product id: {} has been deducted from stock, {} item(s)", product.getId(), productCount);
         }else{
             throw new OutOfStockException();
         }
