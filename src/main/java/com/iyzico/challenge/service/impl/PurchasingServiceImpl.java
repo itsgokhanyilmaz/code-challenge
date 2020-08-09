@@ -12,6 +12,8 @@ import com.iyzico.challenge.repository.PurchasingRepository;
 import com.iyzico.challenge.service.IyzicoPaymentService;
 import com.iyzico.challenge.service.PurchasingService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,8 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 @Transactional
 public class PurchasingServiceImpl implements PurchasingService {
+
+    private Logger logger = LoggerFactory.getLogger(PurchasingServiceImpl.class);
 
     private PurchasingRepository purchasingRepository;
     private ProductRepository productRepository;
@@ -41,11 +45,11 @@ public class PurchasingServiceImpl implements PurchasingService {
     @Override
     public PurchasingResponse purchaseProduct(PurchasingRequest purchasingRequest) {
         Product product = productRepository.findById(purchasingRequest.getProductId()).orElseThrow(() -> new ProductNotFoundException());
-        decreaseStockCount(product, purchasingRequest.getProductCount());
+
         BigDecimal totalPrice = product.getPrice().multiply(new BigDecimal(purchasingRequest.getProductCount().toString()));
         iyzicoPaymentService.pay(totalPrice);
+        decreaseStockCount(product, purchasingRequest.getProductCount());
         Purchasing purchasing = purchasingRepository.save(purchasingMapper.map.purchasingRequestToPurchasing(purchasingRequest));
-
         return purchasingMapper.map.purchasingToPurchasingResponse(purchasing);
     }
 
@@ -53,6 +57,7 @@ public class PurchasingServiceImpl implements PurchasingService {
         if (product.getStockCount() >= productCount){
             product.setStockCount(product.getStockCount() - productCount);
             productRepository.save(product);
+            logger.info("Product(s) has been deducted from stock");
         }else{
             throw new OutOfStockException();
         }
