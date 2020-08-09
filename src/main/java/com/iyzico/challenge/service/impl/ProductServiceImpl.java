@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse updateProduct(Long productId, ProductRequest productRequest) {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new ProductNotFoundException());
+        Product product = productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
         product.setProductName(productRequest.getProductName());
         product.setPrice(productRequest.getPrice());
         product.setDescription(productRequest.getDescription());
@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse removeProduct(Long productId) {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new ProductNotFoundException());
+        Product product = productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
         productRepository.delete(product);
         logger.info("Product deleted successfully!");
         return ProductMapper.map.productToProductResponse(product);

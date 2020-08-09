@@ -1,15 +1,20 @@
 package com.iyzico.challenge.dto;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public class ProductRequest {
 
+    @NotNull(message = "{product.name.notnull}")
     private String productName;
 
+    @NotNull(message = "{description.notnull}")
     private String description;
 
+    @NotNull(message = "{stock.count.notnull}")
     private Integer stockCount;
 
+    @NotNull(message = "{price.notnull}")
     private BigDecimal price;
 
     public String getProductName() {
