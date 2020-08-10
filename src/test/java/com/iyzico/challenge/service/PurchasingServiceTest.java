@@ -75,13 +75,9 @@ public class PurchasingServiceTest {
     @Rollback
     public void purchaseProduct_withAllParameters_Success(){
         Long productId = new Long(1223334444L);
-        Long purcrhasingId = new Long(125);
         BigDecimal total = new BigDecimal(24000);
 
-        Purchasing purchasing1 = PurchasingMapper.map.purchasingRequestToPurchasing(purchasingRequest);
-
         Mockito.when(productRepository.findById(productId)).thenReturn(Optional.of(product));
-
 
         iyzicoPaymentService.pay(total);
         Mockito.when(purchasingRepository.save(Mockito.any())).thenReturn(purchasing);
@@ -97,11 +93,10 @@ public class PurchasingServiceTest {
     public void purchaseProduct_NoValidParameter_ProductNotFoundException(){
         Long productId = new Long(1223334444L);
         BigDecimal total = new BigDecimal(24000);
-        Purchasing purchasing1 = PurchasingMapper.map.purchasingRequestToPurchasing(purchasingRequest);
         Mockito.when(productRepository.findById(productId)).thenReturn(Optional.empty());
 
         iyzicoPaymentService.pay(total);
-        Mockito.when(purchasingRepository.save(purchasing1)).thenReturn(purchasing);
+        Mockito.when(purchasingRepository.save(Mockito.any())).thenReturn(purchasing);
 
         purchasingService.purchaseProduct(purchasingRequest);
     }

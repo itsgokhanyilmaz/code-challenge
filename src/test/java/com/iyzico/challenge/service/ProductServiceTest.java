@@ -68,9 +68,9 @@ public class ProductServiceTest {
     @Test
     public void updateProduct_withAllProperties_success(){
         Long productId = new Long(1223334444);
-        Mockito.when(productRepository.findById(productId)).thenReturn(Optional.of(product));
+        Mockito.when(productRepository.findById(Mockito.any())).thenReturn(Optional.of(product));
 
-        productService.updateProduct(productId, productRequest);
+        productService.updateProduct(Mockito.any(), productRequest);
 
         Mockito.verify(productRepository).save(captor.capture());
 
