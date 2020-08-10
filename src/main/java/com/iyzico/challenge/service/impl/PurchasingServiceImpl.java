@@ -49,7 +49,8 @@ public class PurchasingServiceImpl implements PurchasingService {
         BigDecimal totalPrice = product.getPrice().multiply(new BigDecimal(purchasingRequest.getProductCount().toString()));
         iyzicoPaymentService.pay(totalPrice);
         decreaseStockCount(product, purchasingRequest.getProductCount());
-        Purchasing purchasing = purchasingRepository.save(purchasingMapper.map.purchasingRequestToPurchasing(purchasingRequest));
+        Purchasing mappedPurchasing = purchasingMapper.map.purchasingRequestToPurchasing(purchasingRequest);
+        Purchasing purchasing = purchasingRepository.save(mappedPurchasing);
         return purchasingMapper.map.purchasingToPurchasingResponse(purchasing);
     }
 

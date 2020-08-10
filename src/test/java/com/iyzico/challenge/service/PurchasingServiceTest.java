@@ -75,7 +75,7 @@ public class PurchasingServiceTest {
     @Rollback
     public void purchaseProduct_withAllParameters_Success(){
         Long productId = new Long(1223334444L);
-        Long purchasingId = new Long(125);
+        Long purcrhasingId = new Long(125);
         BigDecimal total = new BigDecimal(24000);
 
         Purchasing purchasing1 = PurchasingMapper.map.purchasingRequestToPurchasing(purchasingRequest);
@@ -84,7 +84,7 @@ public class PurchasingServiceTest {
 
 
         iyzicoPaymentService.pay(total);
-        Mockito.when(purchasingRepository.save(purchasing1)).thenReturn(purchasing);
+        Mockito.when(purchasingRepository.save(Mockito.any())).thenReturn(purchasing);
 
         PurchasingResponse purchasingResponse = purchasingService.purchaseProduct(purchasingRequest);
 
