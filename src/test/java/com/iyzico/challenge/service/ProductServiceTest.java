@@ -31,7 +31,7 @@ public class ProductServiceTest {
 
     private ProductRequest productRequest;
 
-    private Product savedProduct;
+    private Product product;
 
     @Captor
     ArgumentCaptor<Product> captor;
@@ -44,18 +44,18 @@ public class ProductServiceTest {
         productRequest.setPrice(BigDecimal.valueOf(12000));
         productRequest.setStockCount(20);
 
-        savedProduct = new Product();
-        savedProduct.setId(new Long(1223334444));
-        savedProduct.setProductName("iPhone");
-        savedProduct.setStockCount(20);
-        savedProduct.setDescription("Cell Phone");
-        savedProduct.setPrice(BigDecimal.valueOf(12000));
+        product = new Product();
+        product.setId(new Long(1223334444));
+        product.setProductName("iPhone");
+        product.setStockCount(20);
+        product.setDescription("Cell Phone");
+        product.setPrice(BigDecimal.valueOf(12000));
 
     }
 
     @Test
     public void addProduct_withAllProperties_success(){
-        Mockito.when(productRepository.save(Mockito.any())).thenReturn(savedProduct);
+        Mockito.when(productRepository.save(Mockito.any())).thenReturn(product);
 
         ProductResponse productResponse = productService.addProduct(productRequest);
 
@@ -68,7 +68,7 @@ public class ProductServiceTest {
     @Test
     public void updateProduct_withAllProperties_success(){
         Long productId = new Long(1223334444);
-        Mockito.when(productRepository.findById(Mockito.any())).thenReturn(Optional.of(savedProduct));
+        Mockito.when(productRepository.findById(productId)).thenReturn(Optional.of(product));
 
         productService.updateProduct(productId, productRequest);
 
@@ -91,17 +91,17 @@ public class ProductServiceTest {
     @Test
     public void removeProduct_withValidParameter_success(){
         Long productId = new Long(1223334444);
-        Mockito.when(productRepository.findById(Mockito.any())).thenReturn(Optional.of(savedProduct));
+        Mockito.when(productRepository.findById(productId)).thenReturn(Optional.of(product));
         productService.removeProduct(productId);
 
         InOrder inOrder = Mockito.inOrder(productRepository);
-        inOrder.verify(productRepository).delete(Mockito.any());
+        inOrder.verify(productRepository).delete(product);
     }
 
     @Test(expected = ProductNotFoundException.class)
     public void removeProduct_NoValidParameter_ProductNotFoundException(){
         Long productId = new Long(1223334444);
-        Mockito.when(productRepository.findById(Mockito.any())).thenReturn(Optional.empty());
+        Mockito.when(productRepository.findById(productId)).thenReturn(Optional.empty());
         productService.removeProduct(productId);
 
     }
