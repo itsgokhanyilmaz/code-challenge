@@ -93,8 +93,7 @@ public class PurchasingControllerTest {
 
         payload.put("productId", purchasingRequest.getProductId());
         payload.put("productCount",purchasingRequest.getProductCount());
-
-        // product request atıldı product eklendi
+        
         ProductRequest productRequest = new ProductRequest();
         productRequest.setPrice(BigDecimal.valueOf(12000));
         productRequest.setStockCount(20);
