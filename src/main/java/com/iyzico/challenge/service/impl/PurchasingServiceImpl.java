@@ -44,7 +44,7 @@ public class PurchasingServiceImpl implements PurchasingService {
 
     @Override
     public PurchasingResponse purchaseProduct(PurchasingRequest purchasingRequest) {
-        Product product = productRepository.findById(purchasingRequest.getProductId()).orElseThrow(() -> new ProductNotFoundException());
+        Product product = productRepository.findById(purchasingRequest.getProductId()).orElseThrow(ProductNotFoundException::new);
 
         BigDecimal totalPrice = product.getPrice().multiply(new BigDecimal(purchasingRequest.getProductCount().toString()));
         iyzicoPaymentService.pay(totalPrice);

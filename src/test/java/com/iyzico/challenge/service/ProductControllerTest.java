@@ -14,14 +14,15 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @EnableAutoConfiguration
 @RunWith(SpringRunner.class)
@@ -50,7 +51,7 @@ public class ProductControllerTest {
         productRequest.setPrice(BigDecimal.valueOf(12000));
         productRequest.setStockCount(20);
         productRequest.setProductName("iPhone");
-        productRequest.setDescription("Call Phone");
+        productRequest.setDescription("Cell Phone");
 
         payload.put("name", productRequest.getProductName());
         payload.put("price",productRequest.getPrice());
@@ -66,48 +67,21 @@ public class ProductControllerTest {
         productRequest.setPrice(BigDecimal.valueOf(12000));
         productRequest.setStockCount(20);
         productRequest.setProductName("iPhone");
-        productRequest.setDescription("Call Phone");
+        productRequest.setDescription("Cell Phone");
 
-        payload.put("name", productRequest.getProductName());
-        payload.put("price",productRequest.getPrice());
-        payload.put("count", productRequest.getStockCount());
+        payload.put("productName", productRequest.getProductName());
+        payload.put("price",productRequest.getPrice().intValue());
+        payload.put("stockCount", productRequest.getStockCount());
         payload.put("description", productRequest.getDescription());
 
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<?> httpEntity = new HttpEntity<>(payload.toString(), headers);
         ResponseEntity<ProductResponse> responseObj = restTemplate.postForEntity(createURLWithPort("/product/add"), httpEntity, ProductResponse.class);
-        ProductResponse result = responseObj.getBody();
-
-        assertNotNull(result.getProductName());
-        assertNotNull(result.getDescription());
-        assertNotNull(result.getPrice());
-        assertNotNull(result.getStockCount());
-
-    }
-
-    public void updateProduct_whenPutIsCalled_ShouldReturnUpdatedObject() throws JSONException {
-        JSONObject payload = new JSONObject();
-        ProductRequest productRequest = new ProductRequest();
-        productRequest.setPrice(BigDecimal.valueOf(12000));
-        productRequest.setStockCount(20);
-        productRequest.setProductName("iPhone");
-        productRequest.setDescription("Call Phone");
-
-        payload.put("name", productRequest.getProductName());
-        payload.put("price",productRequest.getPrice());
-        payload.put("count", productRequest.getStockCount());
-        payload.put("description", productRequest.getDescription());
-
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<?> httpEntity = new HttpEntity<>(payload.toString(), headers);
-        ResponseEntity<ProductResponse> responseObj = restTemplate.exchange(createURLWithPort("/product/add/{1}"), HttpMethod.PUT, httpEntity, ProductResponse.class);
-
-        ProductResponse result = responseObj.getBody();
-
-        assertEquals("iPhone", result.getProductName());
-        assertEquals("Cell Phone", result.getDescription());
-        assertEquals(BigDecimal.valueOf(12000), result.getPrice());
-        assertEquals(20, Optional.ofNullable(result.getStockCount()));
+        ProductResponse body = responseObj.getBody();
+        assertEquals( productRequest.getProductName(), body.getProductName());
+        assertEquals( productRequest.getDescription(), body.getDescription());
+        assertEquals( productRequest.getPrice().intValue(), body.getPrice().intValue());
+        assertEquals( productRequest.getStockCount(), body.getStockCount());
 
     }
 

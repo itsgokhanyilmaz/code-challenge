@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 public class ProductResponse {
 
+    private Long id;
+
     private String productName;
 
     private String description;
@@ -42,5 +44,13 @@ public class ProductResponse {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
