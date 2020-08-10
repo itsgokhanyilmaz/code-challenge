@@ -45,7 +45,7 @@ public class PurchasingControllerTest {
 
         payload = new JSONObject();
         PurchasingRequest purchasingRequest = new PurchasingRequest();
-        purchasingRequest.setProductId(1223334444L);
+        purchasingRequest.setProductId(Long.valueOf(1223334444));
         purchasingRequest.setProductCount(2);
 
         payload.put("productId", purchasingRequest.getProductId());
@@ -57,7 +57,7 @@ public class PurchasingControllerTest {
     public void purchaseProduct_whenPostIsCalled_shouldReturnPurchasingObject() throws JSONException {
         payload = new JSONObject();
         PurchasingRequest purchasingRequest = new PurchasingRequest();
-        purchasingRequest.setProductId(1223334444L);
+        purchasingRequest.setProductId(Long.valueOf(1223334444));
         purchasingRequest.setProductCount(2);
 
         payload.put("productId", purchasingRequest.getProductId());

@@ -45,7 +45,7 @@ public class ProductServiceTest {
         productRequest.setStockCount(20);
 
         product = new Product();
-        product.setId(new Long(1223334444));
+        product.setId(Long.valueOf(1223334444));
         product.setProductName("iPhone");
         product.setStockCount(20);
         product.setDescription("Cell Phone");
@@ -67,7 +67,7 @@ public class ProductServiceTest {
 
     @Test
     public void updateProduct_withAllProperties_success(){
-        Long productId = new Long(1223334444);
+        Long productId = Long.valueOf(1223334444);
         Mockito.when(productRepository.findById(Mockito.any())).thenReturn(Optional.of(product));
 
         productService.updateProduct(Mockito.any(), productRequest);
@@ -90,7 +90,7 @@ public class ProductServiceTest {
 
     @Test
     public void removeProduct_withValidParameter_success(){
-        Long productId = new Long(1223334444);
+        Long productId = Long.valueOf(1223334444);
         Mockito.when(productRepository.findById(productId)).thenReturn(Optional.of(product));
         productService.removeProduct(productId);
 
@@ -100,7 +100,7 @@ public class ProductServiceTest {
 
     @Test(expected = ProductNotFoundException.class)
     public void removeProduct_NoValidParameter_ProductNotFoundException(){
-        Long productId = new Long(1223334444);
+        Long productId = Long.valueOf(1223334444);
         Mockito.when(productRepository.findById(productId)).thenReturn(Optional.empty());
         productService.removeProduct(productId);
 

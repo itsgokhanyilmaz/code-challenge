@@ -53,16 +53,16 @@ public class PurchasingServiceTest {
     @Before
     public void init(){
         purchasingRequest = new PurchasingRequest();
-        purchasingRequest.setProductId(1223334444L);
+        purchasingRequest.setProductId(Long.valueOf(1223334444));
         purchasingRequest.setProductCount(2);
 
         purchasing = new Purchasing();
         purchasing.setId(125L);
-        purchasing.setProductId(1223334444L);
+        purchasing.setProductId(Long.valueOf(1223334444));
         purchasing.setProductCount(2);
 
         product = new Product();
-        product.setId(1223334444L);
+        product.setId(Long.valueOf(1223334444));
         product.setProductName("iPhone");
         product.setStockCount(20);
         product.setPrice(BigDecimal.valueOf(12000));
@@ -74,7 +74,7 @@ public class PurchasingServiceTest {
     @Transactional
     @Rollback
     public void purchaseProduct_withAllParameters_Success(){
-        Long productId = new Long(1223334444L);
+        Long productId = Long.valueOf(1223334444);
         BigDecimal total = new BigDecimal(24000);
 
         Mockito.when(productRepository.findById(productId)).thenReturn(Optional.of(product));
@@ -84,14 +84,14 @@ public class PurchasingServiceTest {
 
         PurchasingResponse purchasingResponse = purchasingService.purchaseProduct(purchasingRequest);
 
-        assertEquals(new Long(1223334444L), purchasingResponse.getProductId());
+        assertEquals(Long.valueOf(1223334444), purchasingResponse.getProductId());
         assertEquals(purchasingRequest.getProductCount(), purchasingResponse.getProductCount());
 
     }
 
     @Test(expected = ProductNotFoundException.class)
     public void purchaseProduct_NoValidParameter_ProductNotFoundException(){
-        Long productId = new Long(1223334444L);
+        Long productId = Long.valueOf(1223334444);
         BigDecimal total = new BigDecimal(24000);
         Mockito.when(productRepository.findById(productId)).thenReturn(Optional.empty());
 
